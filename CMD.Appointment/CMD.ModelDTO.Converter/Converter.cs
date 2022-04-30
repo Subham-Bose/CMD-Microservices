@@ -1,10 +1,5 @@
 ﻿using CMD.DTO.Appointments;
 using CMD.Model.Appointments;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMD.ModelDTO.Converter
 {
@@ -34,7 +29,7 @@ namespace CMD.ModelDTO.Converter
                 AppointmentTime = model.AppointmentTime,
                 AppointmentStatus = model.Status.ToString(),
                 PatientName = model.PatientName,
-                Issue =  model.Issue,
+                Issue = model.Issue,
             };
             return appointment;
         }

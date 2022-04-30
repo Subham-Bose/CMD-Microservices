@@ -1,6 +1,5 @@
 ﻿using CMD.Business.Appointments.Interfaces;
 using CMD.DTO.Appointments;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -30,21 +29,55 @@ namespace CMD.API.Appointments.Controllers
         public IHttpActionResult AddAppointment(AppointmentFormDTO jsonData)
         {
             AppointmentFormDTO appointmentForm = jsonData;
-            
+
             var result = manager.CreateAppointment(appointmentForm);
-            
+
             return Created($"api/appointment/{result.AppointmentId}", result);
         }
 
-        [HttpPut]
+
+
+        /// <summary>
+        /// Changes status from open to either closed or confirmed
+        /// </summary>
+        /// <param name="appointmentStatusDTO"></param>
+        /// <param name="doctorId"></param>
+        /// <returns></returns>
+        [HttpPatch]
         [Route("api/appointment/changestatus/doctorId/{doctorId}")]
-        public IHttpActionResult ChangeStatus([FromBody] AppointmentStatusDTO appDTO, int doctorId)
+        public IHttpActionResult ChangeStatus([FromBody] AppointmentStatusDTO appointmentStatusDTO, int doctorId)
         {
-            var result = manager.ChangeAppointmentStatus(appDTO, doctorId);
+            var result = manager.ChangeAppointmentStatus(appointmentStatusDTO, doctorId);
             var response = Request.CreateResponse(result ? HttpStatusCode.NoContent : HttpStatusCode.PreconditionFailed);
             return ResponseMessage(response);
         }
 
+
+
+        /// <summary>
+        /// Closes a appointment and create a feeback form
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        [Route("api/appointment/close")]
+        public IHttpActionResult CloseAppointment(int appointmentId)
+        {
+            var res = manager.CloseAppointment(appointmentId);
+            if (!res)
+            {
+                return BadRequest();
+            }
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent));
+        }
+
+
+        /// <summary>
+        /// Gets appointment data(paginated)
+        /// </summary>
+        /// <param name="doctorId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/appointment/allappointments/{doctorId}")]
         [ResponseType(typeof(AppointmentBasicInfoDTO))]
@@ -65,6 +98,14 @@ namespace CMD.API.Appointments.Controllers
             return ResponseMessage(response);
         }
 
+
+        /// <summary>
+        /// Gets appointments data with a particular status
+        /// </summary>
+        /// <param name="doctorId"></param>
+        /// <param name="status"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/appointment/allappointments/{status}/{doctorId}")]
         [ResponseType(typeof(AppointmentBasicInfoDTO))]
@@ -85,6 +126,12 @@ namespace CMD.API.Appointments.Controllers
             return ResponseMessage(response);
         }
 
+
+        /// <summary>
+        /// Gets all the IDs associated with a appointment
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/appointment/getids/{appointmentId}")]
         [ResponseType(typeof(IdsListViewDetailsDTO))]
@@ -93,6 +140,13 @@ namespace CMD.API.Appointments.Controllers
             return Ok(manager.GetIdsAssociatedWithAppointment(appointmentId));
         }
 
+
+
+        /// <summary>
+        /// Get appointment comment
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/comment/{appointmentId}")]
         [ResponseType(typeof(AppointmentCommentDTO))]
@@ -103,6 +157,12 @@ namespace CMD.API.Appointments.Controllers
         }
 
 
+        /// <summary>
+        /// Edit appointment comment
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <param name="comment"></param>
+        /// <returns></returns>
         // PUT: api/appointment/comment/{appointmentId}
         [HttpPut]
         [Route("api/comment/{appointmentId}")]
@@ -116,5 +176,6 @@ namespace CMD.API.Appointments.Controllers
             }
             return Ok(comment);
         }
+
     }
 }

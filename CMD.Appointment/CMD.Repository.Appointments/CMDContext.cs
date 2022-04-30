@@ -1,7 +1,5 @@
 using CMD.Model.Appointments;
-using System;
 using System.Data.Entity;
-using System.Linq;
 
 namespace CMD.Repository.Appointments
 {
@@ -28,6 +26,8 @@ namespace CMD.Repository.Appointments
         public virtual DbSet<TestReport> TestReports { get; set; }
         public virtual DbSet<Medicine> Medicines { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
+        public virtual DbSet<FeedBack> FeedBacks { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
     }
 
     //public class MyEntity

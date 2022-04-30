@@ -1,9 +1,5 @@
 ﻿using CMD.DTO.Appointments;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMD.Business.Appointments.Interfaces
 {
@@ -19,5 +15,6 @@ namespace CMD.Business.Appointments.Interfaces
         AppointmentCommentDTO GetAppointmentComment(int appointmentId);
         bool ChangeAppointmentStatus(AppointmentStatusDTO statusDTO, int doctorId);
         IdsListViewDetailsDTO GetIdsAssociatedWithAppointment(int appointmentId);
+        bool CloseAppointment(int appointmentId);
     }
 }

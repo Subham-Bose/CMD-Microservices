@@ -7,8 +7,6 @@ using CMD.Repository.Appointments.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMD.Business.Appointments.Implementations
 {
@@ -23,7 +21,7 @@ namespace CMD.Business.Appointments.Implementations
         public ConfirmedAppointmentDTO CreateAppointment(AppointmentFormDTO appointmentDTO)
         {
             var appointment = Converter.ConvertToAppointment(appointmentDTO);
-            
+
             ConfirmedAppointmentDTO result = Converter.ConvertToConfirmedAppointmentDTO(repo.CreateAppointment(appointment));
 
             return result;
@@ -66,6 +64,16 @@ namespace CMD.Business.Appointments.Implementations
                 result = repo.RejectApppointment(statusDTO.AppointmentId);
             }
             return result;
+        }
+
+        public bool CloseAppointment(int appointmentId)
+        {
+            var success = repo.CloseAppointment(appointmentId);
+            if (success)
+            {
+                repo.CreateFeedback(appointmentId);
+            }
+            return success;
         }
 
         public AppointmentCommentDTO GetAppointmentComment(int appointmentId)

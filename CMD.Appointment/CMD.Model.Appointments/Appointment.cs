@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMD.Model.Appointments
 {
@@ -21,7 +18,7 @@ namespace CMD.Model.Appointments
         }
         [Key]
         public int Id { get; set; }
-        [Column(TypeName ="Date")]
+        [Column(TypeName = "Date")]
         public DateTime AppointmentDate { get; set; }
         public TimeSpan AppointmentTime { get; set; }
         public AppointmentStatus Status { get; set; }
@@ -42,6 +39,6 @@ namespace CMD.Model.Appointments
         public ICollection<Recommendation> Recommendations { get; set; }
         public FeedBack FeedBack { get; set; }
         [Column(TypeName = "Date")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; private set; }
     }
 }

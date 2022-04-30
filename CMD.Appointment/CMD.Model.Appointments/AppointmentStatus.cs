@@ -2,6 +2,6 @@
 {
     public enum AppointmentStatus
     {
-        OPEN=1, CLOSED, CANCELLED, CONFIRMED
+        OPEN = 1, CLOSED, CANCELLED, CONFIRMED
     }
 }

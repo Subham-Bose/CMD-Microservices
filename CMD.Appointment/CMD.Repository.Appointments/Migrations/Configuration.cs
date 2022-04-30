@@ -1,9 +1,6 @@
 ﻿namespace CMD.Repository.Appointments.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CMD.Repository.Appointments.CMDContext>
     {
@@ -19,11 +16,11 @@
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
             context.Medicines.AddOrUpdate
-                (
+            (
                 x => x.Name,
                 new Model.Appointments.Medicine()
                 {
-                    Name= "Vicodin"
+                    Name = "Vicodin"
                 },
                 new Model.Appointments.Medicine()
                 {
@@ -62,13 +59,13 @@
                     Name = "Losartan"
                 }
 
-                );
+            );
             context.Tests.AddOrUpdate
-                (
+            (
                 x => x.Name,
                 new Model.Appointments.Test()
                 {
-                    Name= "Blood Sugar"
+                    Name = "Blood Sugar"
                 },
                 new Model.Appointments.Test()
                 {
@@ -110,7 +107,28 @@
                 {
                     Name = "Insulin"
                 }
-                );
+            );
+
+            context.Questions.AddOrUpdate
+            (
+                x => x.Statement,
+                new Model.Appointments.Question()
+                {
+                    Statement = "How did you find the experience of booking appointments?"
+                },
+                new Model.Appointments.Question()
+                {
+                    Statement = "How long did you have to wait until the doctor attends to you?"
+                },
+                new Model.Appointments.Question()
+                {
+                    Statement = "Were you satisfied with the doctor you were allocated with? "
+                },
+                new Model.Appointments.Question()
+                {
+                    Statement = "How easy is it to navigate our facility?"
+                }
+            );
         }
     }
 }

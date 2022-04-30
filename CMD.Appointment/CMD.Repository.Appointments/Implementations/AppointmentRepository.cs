@@ -1,11 +1,8 @@
 ﻿using CMD.Model.Appointments;
 using CMD.Repository.Appointments.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMD.Repository.Appointments.Implementations
 {
@@ -66,6 +63,32 @@ namespace CMD.Repository.Appointments.Implementations
             appointment.Status = AppointmentStatus.CONFIRMED;
             return db.SaveChanges() > 0;
         }
+
+
+        public bool CloseAppointment(int appointmentId)
+        {
+            var appointment = db.Appointments.Find(appointmentId);
+            appointment.Status = AppointmentStatus.CLOSED;
+            appointment.FeedBack = new FeedBack();
+            return db.SaveChanges() > 0;
+        }
+
+        public bool CreateFeedback(int appointmentId)
+        {
+            var appointment = db.Appointments.Find(appointmentId);
+            var questions = db.Questions.ToList();
+
+            if (questions.Count > 0)
+            {
+                foreach (var item in questions)
+                {
+                    appointment.FeedBack.Rating.Add(new QuestionRating { Question = item });
+                }
+            }
+
+            return db.SaveChanges() > 0;
+        }
+
 
         public int TotalAppointmentCount(int doctorId)
         {
