@@ -177,5 +177,17 @@ namespace CMD.API.Appointments.Controllers
             return Ok(comment);
         }
 
+        /// <summary>
+        /// Throws System.Exception. (Elmah Testing)
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception"></exception>
+        [HttpGet]
+        [Route("api/throwexception/elmah")]
+        public IHttpActionResult Throw()
+        {
+            throw new System.Exception();
+        }
+
     }
 }

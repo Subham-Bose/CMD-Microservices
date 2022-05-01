@@ -99,5 +99,14 @@ namespace CMD.API.Doctors.Controllers
             DoctorCardDTO cardDetails = manager.GetDoctorCard(doctorId);
             return Ok(cardDetails);
         }
+
+        [HttpGet]
+        [Route("doctor/alldoctors")]
+        [ResponseType(typeof(ICollection<RDoctorDTO>))]
+        public IHttpActionResult GetAllDoctors()
+        {
+            var doctors = manager.GetAllDoctor();
+            return Ok(doctors);
+        }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Web.Http;
+﻿using Elmah.Contrib.WebApi;
+using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.ExceptionHandling;
 
 namespace CMD.API.Appointments
 {
@@ -14,6 +16,8 @@ namespace CMD.API.Appointments
 
             EnableCorsAttribute cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "*");
             config.EnableCors(cors);
+
+            config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

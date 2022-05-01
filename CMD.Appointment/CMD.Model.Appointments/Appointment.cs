@@ -18,6 +18,7 @@ namespace CMD.Model.Appointments
         }
         [Key]
         public int Id { get; set; }
+
         [Column(TypeName = "Date")]
         public DateTime AppointmentDate { get; set; }
         public TimeSpan AppointmentTime { get; set; }
