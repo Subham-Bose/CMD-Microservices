@@ -1,4 +1,5 @@
 ﻿using CMD.Business.Appointments.Interfaces;
+using CMD.CustomException.Appointments;
 using CMD.DTO.Appointments;
 using CMD.Model.Appointments;
 using CMD.ModelDTO.Converter;
@@ -13,13 +14,21 @@ namespace CMD.Business.Appointments.Implementations
     public class AppointmentService : IAppointmentService
     {
         private readonly IAppointmentRepository repo;
-        public AppointmentService(AppointmentRepository repo)
+        public AppointmentService()
         {
-            this.repo = repo;
+            this.repo = new AppointmentRepository();
         }
 
         public ConfirmedAppointmentDTO CreateAppointment(AppointmentFormDTO appointmentDTO)
         {
+
+            if (appointmentDTO.AppointmentDate < DateTime.Now.Date || (appointmentDTO.AppointmentDate == DateTime.Now.Date && appointmentDTO.AppointmentTime < DateTime.Now.TimeOfDay))
+                throw new AppointmentDatetimeException();
+            if (appointmentDTO.AppointmentTime == null || appointmentDTO.AppointmentDate == null)
+                throw new Exception("Provide appointment Date and Time");
+            if (appointmentDTO.PatientName == "" || appointmentDTO.DoctorName == "" || appointmentDTO.Issue == " " || appointmentDTO.DoctorId == 0 || appointmentDTO.PatientId == 0)
+                throw new NullReferenceException();
+
             var appointment = Converter.ConvertToAppointment(appointmentDTO);
 
             ConfirmedAppointmentDTO result = Converter.ConvertToConfirmedAppointmentDTO(repo.CreateAppointment(appointment));
@@ -29,7 +38,17 @@ namespace CMD.Business.Appointments.Implementations
 
         public ICollection<AppointmentBasicInfoDTO> GetAllAppointment(int doctorId, PaginationParams pagination)
         {
-            ICollection<Appointment> appointments = repo.GetAllAppointment(doctorId).Skip((pagination.Page - 1) * pagination.ItemsPerPage).Take(pagination.ItemsPerPage).ToList();
+            ICollection<Appointment> appointments = repo.GetAllAppointment(doctorId);
+
+            if(appointments.Count != 0)
+            {
+                appointments = appointments.Skip((pagination.Page - 1) * pagination.ItemsPerPage).Take(pagination.ItemsPerPage).ToList();
+            }
+            else
+            {
+                return null;
+            }
+
             ICollection<AppointmentBasicInfoDTO> result = new List<AppointmentBasicInfoDTO>();
             foreach (var appointment in appointments)
             {

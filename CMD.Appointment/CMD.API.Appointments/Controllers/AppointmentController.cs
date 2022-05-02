@@ -1,5 +1,6 @@
 ﻿using CMD.Business.Appointments.Interfaces;
 using CMD.DTO.Appointments;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using System.Web.Http.Description;
 
 namespace CMD.API.Appointments.Controllers
 {
+    [RoutePrefix("api/appointments")]
     public class AppointmentController : ApiController
     {
         protected IAppointmentService manager;
@@ -24,13 +26,21 @@ namespace CMD.API.Appointments.Controllers
         /// <param name="jsonData"></param>
         /// <returns>IHttpActionResult</returns>
         [HttpPost]
-        [Route("api/appointment/create")]
+        [Route("appointment/create")]
         [ResponseType(typeof(ConfirmedAppointmentDTO))]
         public IHttpActionResult AddAppointment(AppointmentFormDTO jsonData)
         {
             AppointmentFormDTO appointmentForm = jsonData;
 
-            var result = manager.CreateAppointment(appointmentForm);
+            ConfirmedAppointmentDTO result;
+            try
+            {
+                result = manager.CreateAppointment(appointmentForm);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);  
+            }
 
             return Created($"api/appointment/{result.AppointmentId}", result);
         }
@@ -44,7 +54,7 @@ namespace CMD.API.Appointments.Controllers
         /// <param name="doctorId"></param>
         /// <returns></returns>
         [HttpPatch]
-        [Route("api/appointment/changestatus/doctorId/{doctorId}")]
+        [Route("appointment/changestatus/doctorId/{doctorId}")]
         public IHttpActionResult ChangeStatus([FromBody] AppointmentStatusDTO appointmentStatusDTO, int doctorId)
         {
             var result = manager.ChangeAppointmentStatus(appointmentStatusDTO, doctorId);
@@ -60,7 +70,7 @@ namespace CMD.API.Appointments.Controllers
         /// <param name="appointmentId"></param>
         /// <returns></returns>
         [HttpPatch]
-        [Route("api/appointment/close")]
+        [Route("appointment/close")]
         public IHttpActionResult CloseAppointment(int appointmentId)
         {
             var res = manager.CloseAppointment(appointmentId);
@@ -79,7 +89,7 @@ namespace CMD.API.Appointments.Controllers
         /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/appointment/allappointments/{doctorId}")]
+        [Route("{doctorId}")]
         [ResponseType(typeof(AppointmentBasicInfoDTO))]
         public IHttpActionResult GetAllAppointment(int doctorId, [FromUri] PaginationParams parameters)
         {
@@ -107,7 +117,7 @@ namespace CMD.API.Appointments.Controllers
         /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/appointment/allappointments/{status}/{doctorId}")]
+        [Route("{status}/{doctorId}")]
         [ResponseType(typeof(AppointmentBasicInfoDTO))]
         public IHttpActionResult GetAllAppointmentBasedOnStatus(int doctorId, string status, [FromUri] PaginationParams parameters)
         {
@@ -133,7 +143,7 @@ namespace CMD.API.Appointments.Controllers
         /// <param name="appointmentId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/appointment/getids/{appointmentId}")]
+        [Route("appointment/Ids/{appointmentId}")]
         [ResponseType(typeof(IdsListViewDetailsDTO))]
         public IHttpActionResult GetIdsAssociatedWithAppointment(int appointmentId)
         {
@@ -148,7 +158,7 @@ namespace CMD.API.Appointments.Controllers
         /// <param name="appointmentId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/comment/{appointmentId}")]
+        [Route("comment/{appointmentId}")]
         [ResponseType(typeof(AppointmentCommentDTO))]
         public IHttpActionResult GetComment(int appointmentId)
         {
@@ -165,7 +175,7 @@ namespace CMD.API.Appointments.Controllers
         /// <returns></returns>
         // PUT: api/appointment/comment/{appointmentId}
         [HttpPut]
-        [Route("api/comment/{appointmentId}")]
+        [Route("comment/{appointmentId}")]
         [ResponseType(typeof(AppointmentCommentDTO))]
         public IHttpActionResult EditComment(int appointmentId, AppointmentCommentDTO comment)
         {
@@ -177,13 +187,21 @@ namespace CMD.API.Appointments.Controllers
             return Ok(comment);
         }
 
+        [HttpGet]
+        [Route("appointmentstatistics/{doctorId}")]
+        public IHttpActionResult GetAppointmentStats(int doctorId)
+        {
+            var stats = manager.DashboardSummary(doctorId);
+            return Ok(stats);
+        }
+
         /// <summary>
         /// Throws System.Exception. (Elmah Testing)
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.Exception"></exception>
         [HttpGet]
-        [Route("api/throwexception/elmah")]
+        [Route("throwexception/elmah")]
         public IHttpActionResult Throw()
         {
             throw new System.Exception();

@@ -15,9 +15,9 @@ namespace CMD.Repository.Appointments.Implementations
 
         public bool DeletePrescription(int appointmentId, int PrescriptionId)
         {
-            Appointment patientDetail = db.Appointments.Include("Prescriptions").Where(p => p.Id == appointmentId).FirstOrDefault();
+            Appointment appointment = db.Appointments.Include("Prescriptions").Where(p => p.Id == appointmentId).FirstOrDefault();
             Prescription pres = null;
-            foreach (Prescription p in patientDetail.Prescriptions)
+            foreach (Prescription p in appointment.Prescriptions)
             {
                 if (p.Id == PrescriptionId)
                 {
@@ -27,9 +27,9 @@ namespace CMD.Repository.Appointments.Implementations
             }
             if (pres != null)
             {
-                patientDetail.Prescriptions.Remove(pres);
+                appointment.Prescriptions.Remove(pres);
                 db.Prescriptions.Remove(pres);
-                db.Appointments.Append(patientDetail);
+                db.Appointments.Append(appointment);
                 return db.SaveChanges() > 0;
             }
             return false;

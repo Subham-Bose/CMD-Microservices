@@ -101,7 +101,7 @@ namespace CMD.API.Doctors.Controllers
         }
 
         [HttpGet]
-        [Route("doctor/alldoctors")]
+        [Route("alldoctors")]
         [ResponseType(typeof(ICollection<RDoctorDTO>))]
         public IHttpActionResult GetAllDoctors()
         {

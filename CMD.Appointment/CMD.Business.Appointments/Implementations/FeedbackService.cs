@@ -9,9 +9,9 @@ namespace CMD.Business.Appointments.Implementations
     {
         private IFeedbackRepository repo;
 
-        public FeedbackService(FeedbackRepository repo)
+        public FeedbackService()
         {
-            this.repo = repo;
+            repo = new FeedbackRepository();
         }
 
         public FeedBack GetFeedback(int id)

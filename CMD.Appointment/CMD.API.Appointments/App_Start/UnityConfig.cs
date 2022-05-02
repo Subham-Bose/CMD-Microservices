@@ -1,5 +1,7 @@
 using CMD.Business.Appointments.Implementations;
 using CMD.Business.Appointments.Interfaces;
+using CMD.Repository.Appointments.Implementations;
+using CMD.Repository.Appointments.Interfaces;
 using System;
 
 using Unity;

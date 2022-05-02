@@ -1,5 +1,7 @@
 using CMD.Business.Patients.Implementations;
 using CMD.Business.Patients.Interfaces;
+using CMD.Repository.Patients.Implementations;
+using CMD.Repository.Patients.Interfaces;
 using System;
 
 using Unity;
@@ -45,6 +47,7 @@ namespace CMD.API.Patients
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IPatientService, PatientService>();
+            container.RegisterType<IPatientRepository, PatientRepository>();
         }
     }
 }

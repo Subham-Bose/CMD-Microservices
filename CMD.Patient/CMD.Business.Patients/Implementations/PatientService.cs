@@ -15,9 +15,9 @@ namespace CMD.Business.Patients.Implementations
     {
         private readonly IPatientRepository repo;
 
-        public PatientService()
+        public PatientService(IPatientRepository repo)
         {
-            repo = new PatientRepository();
+            this.repo = repo;
         }
         public ICollection<PatientDTO> GetAllPatient()
         {

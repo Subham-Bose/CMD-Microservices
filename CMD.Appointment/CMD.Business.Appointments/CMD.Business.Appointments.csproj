@@ -56,6 +56,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CMD.CustomException.Appointments\CMD.CustomException.Appointments.csproj">
+      <Project>{A7C0CED3-E567-4028-95BF-6F9CE564ED9A}</Project>
+      <Name>CMD.CustomException.Appointments</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CMD.DTO.Appointments\CMD.DTO.Appointments.csproj">
       <Project>{1DB45AC4-CFD6-4858-9F88-51A2151A8C2B}</Project>
       <Name>CMD.DTO.Appointments</Name>

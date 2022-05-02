@@ -150,6 +150,10 @@
       <Project>{39CDFD62-73D5-42EA-B8A3-F21AEDE0F0D4}</Project>
       <Name>CMD.DTO.Patients</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CMD.Repository.Patients\CMD.Repository.Patients.csproj">
+      <Project>{8291CF5D-CFD1-4E71-9284-FF3ED3BF14BD}</Project>
+      <Name>CMD.Repository.Patients</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

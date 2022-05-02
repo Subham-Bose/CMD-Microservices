@@ -10,9 +10,9 @@ namespace CMD.Business.Appointments.Implementations
     {
         private readonly IRecommendationRepository repo;
 
-        public RecommendationService(RecommendationRepository repo)
+        public RecommendationService()
         {
-            this.repo = repo;
+            this.repo = new RecommendationRepository();
         }
 
 
@@ -39,11 +39,5 @@ namespace CMD.Business.Appointments.Implementations
             };
             return result;
         }
-
-
-        //public List<DoctorInfoDTO> GetDoctors()
-        //{
-        //    return repo.GetDoctors();
-        //}
     }
 }

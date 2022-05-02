@@ -165,6 +165,10 @@
       <Project>{0CF05B47-600F-4C57-9AB9-BF76A09D7674}</Project>
       <Name>CMD.Model.Appointments</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CMD.Repository.Appointments\CMD.Repository.Appointments.csproj">
+      <Project>{20F18D97-933C-408D-84F3-A2488486CF86}</Project>
+      <Name>CMD.Repository.Appointments</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
