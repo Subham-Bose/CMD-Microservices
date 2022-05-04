@@ -20,7 +20,7 @@ namespace CMD.Business.Doctors.Implementations
             this.repo = repo;
         }
 
-        public void EditDoctor(DoctorProfileDTO doctorsDTO)
+        public DoctorProfileDTO EditDoctor(DoctorProfileDTO doctorsDTO)
         {
 
             Doctor doctor = new Doctor
@@ -40,7 +40,23 @@ namespace CMD.Business.Doctors.Implementations
                 }
             };
 
-            repo.EditDoctor(doctor);
+            var updatedDoctor = repo.EditDoctor(doctor);
+
+            return new DoctorProfileDTO
+            {
+                ContactDetails = new ContactDetailDTO
+                {
+                    doctor_email_id = updatedDoctor.ContactDetail.Email,
+                    doctor_phone_number = updatedDoctor.ContactDetail.PhoneNumber,
+                    Id = updatedDoctor.ContactDetail.Id,
+                },
+                id = doctor.Id,
+                doctor_name = doctor.Name,
+                doctor_speciality = doctor.Speciality,
+                doctor_npi_no = doctor.NPINumber,
+                doctor_practice_location = doctor.PracticeLocation,
+                doctor_profile_image = doctor.DoctorPicture
+            };
         }
 
         public DoctorProfileDTO GetDoctorsWithContact(int id)

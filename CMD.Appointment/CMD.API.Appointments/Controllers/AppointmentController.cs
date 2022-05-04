@@ -46,7 +46,6 @@ namespace CMD.API.Appointments.Controllers
         }
 
 
-
         /// <summary>
         /// Changes status from open to either closed or confirmed
         /// </summary>

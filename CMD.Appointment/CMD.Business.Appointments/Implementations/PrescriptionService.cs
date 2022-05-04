@@ -24,6 +24,12 @@ namespace CMD.Business.Appointments.Implementations
         public ICollection<PrescriptionDTO> GetPrescriptions(int appointmentId)
         {
             ICollection<Prescription> prescriptions = repo.GetPrescriptions(appointmentId);
+
+            if(prescriptions.Count == 0)
+            {
+                return null;
+            }
+
             ICollection<PrescriptionDTO> prescriptionDTOs = new List<PrescriptionDTO>();
             foreach (Prescription p in prescriptions)
             {

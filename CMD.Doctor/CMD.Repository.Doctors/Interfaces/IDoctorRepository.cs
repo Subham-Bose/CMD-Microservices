@@ -10,7 +10,7 @@ namespace CMD.Repository.Doctors.Interfaces
     public interface IDoctorRepository
     {
         Doctor GetDoctor(int id);
-        void EditDoctor(Doctor doctor);
+        Doctor EditDoctor(Doctor doctor);
         Doctor AddDoctor(Doctor doctor);
         ICollection<Doctor> GetAllDoctorToRecommend();
     }

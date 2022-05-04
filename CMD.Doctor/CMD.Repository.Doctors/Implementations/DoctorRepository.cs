@@ -25,10 +25,32 @@ namespace CMD.Repository.Doctors.Implementations
             return result;
         }
 
-        public void EditDoctor(Doctor doctor)
+        public Doctor EditDoctor(Doctor doctor)
         {
-            db.Entry(doctor).State = EntityState.Modified;
+            var existingDoctor = db.Doctors.Where(d => d.Id == doctor.Id).Include(d => d.ContactDetail).FirstOrDefault();
+            if(existingDoctor == null)
+            {
+                return null;
+            }
+            else
+            {
+                db.Entry(existingDoctor).CurrentValues.SetValues(doctor);
+                var contacts = existingDoctor.ContactDetail;
+                if(contacts == null)
+                {
+                    existingDoctor.ContactDetail = new ContactDetail()
+                    {
+                        Email = doctor.ContactDetail.Email,
+                        PhoneNumber = doctor.ContactDetail.PhoneNumber,
+                    };                    
+                }
+                else if(contacts.Id == doctor.ContactDetail.Id)
+                {
+                    db.Entry(existingDoctor.ContactDetail).CurrentValues.SetValues(doctor.ContactDetail);
+                }
+            }
             db.SaveChanges();
+            return existingDoctor;
         }
 
         public Doctor GetDoctor(int id)

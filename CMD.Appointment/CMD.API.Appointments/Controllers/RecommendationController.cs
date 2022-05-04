@@ -14,7 +14,7 @@ namespace CMD.API.Appointments.Controllers
             this.manager = manager;
         }
 
-        [Route("api/recommendation")]
+        [Route("recommendation")]
         [HttpPost]
         [ResponseType(typeof(RecommendationDTO))]
         public IHttpActionResult AddRecommendation(RecommendationDTO recommendation)
@@ -25,7 +25,7 @@ namespace CMD.API.Appointments.Controllers
         }
 
 
-        [Route("api/recommendation/{id}")]
+        [Route("recommendation/{id}")]
         [HttpDelete]
         public IHttpActionResult Remove(int id)
         {

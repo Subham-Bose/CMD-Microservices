@@ -9,7 +9,7 @@ namespace CMD.Business.Doctors.Interfaces
 {
     public interface IDoctorService
     {
-        void EditDoctor(DoctorProfileDTO doctorsDTO);
+        DoctorProfileDTO EditDoctor(DoctorProfileDTO doctorsDTO);
         DoctorProfileDTO GetDoctorsWithContact(int id);
         void EditDoctor(DoctorDTO doctorDTO);
         DoctorDTO GetDoctors(int id);

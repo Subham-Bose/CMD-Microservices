@@ -1,6 +1,7 @@
 ﻿using CMD.Model.Appointments;
 using CMD.Repository.Appointments.Interfaces;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace CMD.Repository.Appointments.Implementations
@@ -37,16 +38,9 @@ namespace CMD.Repository.Appointments.Implementations
 
         public ICollection<Prescription> GetPrescriptions(int appointmentId)
         {
-            ICollection<Prescription> prescriptions1 = new List<Prescription>();
-            ICollection<Prescription> prescriptions = db.Appointments.Include("Prescriptions").Where(p => p.Id == appointmentId).Select(p => p.Prescriptions).FirstOrDefault();
-            foreach (Prescription p in prescriptions)
-            {
-                //p.Medicine=db.Medicines.Find(p.Medicine.Id);
-                Prescription temp = db.Prescriptions.Include("Medicine").Where(s => s.Id == p.Id).FirstOrDefault();
-                temp.Medicine = db.Medicines.Find(temp.Medicine.Id);
-                prescriptions1.Add(temp);
-            }
-            return prescriptions1;
+            var prescriptions = db.Appointments.Where(a => a.Id == appointmentId).SelectMany(a => a.Prescriptions).Include(p => p.Medicine).ToList();
+
+            return prescriptions;
         }
 
 

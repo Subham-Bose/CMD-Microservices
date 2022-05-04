@@ -48,7 +48,6 @@ namespace CMD.API.Doctors.Controllers
 
 
 
-        // POST: api/Doctor
         [HttpPut]
         [Route("doctorprofile")]
         [ResponseType(typeof(DoctorProfileDTO))]
@@ -66,8 +65,8 @@ namespace CMD.API.Doctors.Controllers
 
 
             }
-            manager.EditDoctor(doctor);
-            return Ok(doctor);
+            var updatedDoctor = manager.EditDoctor(doctor);
+            return Ok(updatedDoctor);
         }
 
         [HttpGet]

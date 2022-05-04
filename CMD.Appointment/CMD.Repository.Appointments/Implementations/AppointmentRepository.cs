@@ -28,13 +28,13 @@ namespace CMD.Repository.Appointments.Implementations
 
         public ICollection<Appointment> GetAllAppointment(int doctorId)
         {
-            var appointments = db.Appointments.Where(x => x.DoctorId == doctorId).ToList();
+            var appointments = db.Appointments.Where(x => x.DoctorId == doctorId).OrderBy(x => x.AppointmentDate).OrderBy(x => x.AppointmentTime).ToList();
             return appointments;
         }
 
         public ICollection<Appointment> GetAllAppointmentFilterWithStatus(int doctorId, AppointmentStatus status)
         {
-            var appointments = db.Appointments.Where(a => a.DoctorId == doctorId && a.Status == status).ToList();
+            var appointments = db.Appointments.Where(a => a.DoctorId == doctorId && a.Status == status).OrderBy(x => x.AppointmentDate).OrderBy(x => x.AppointmentTime).ToList();
             return appointments;
         }
 
@@ -136,6 +136,7 @@ namespace CMD.Repository.Appointments.Implementations
         {
             return db.Appointments.Where(a => a.DoctorId == doctorId && a.Status.ToString().ToLower().Equals(status.ToLower())).Count();
         }
+
 
     }
 }

@@ -3,7 +3,6 @@ using CMD.CustomException.Appointments;
 using CMD.DTO.Appointments;
 using CMD.Model.Appointments;
 using CMD.ModelDTO.Converter;
-using CMD.Repository.Appointments.Implementations;
 using CMD.Repository.Appointments.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,20 +13,23 @@ namespace CMD.Business.Appointments.Implementations
     public class AppointmentService : IAppointmentService
     {
         private readonly IAppointmentRepository repo;
-        public AppointmentService()
+        public AppointmentService(IAppointmentRepository repo)
         {
-            this.repo = new AppointmentRepository();
+            this.repo = repo;
         }
 
         public ConfirmedAppointmentDTO CreateAppointment(AppointmentFormDTO appointmentDTO)
         {
-
-            if (appointmentDTO.AppointmentDate < DateTime.Now.Date || (appointmentDTO.AppointmentDate == DateTime.Now.Date && appointmentDTO.AppointmentTime < DateTime.Now.TimeOfDay))
+            if (DateTime.Compare(appointmentDTO.AppointmentDate,DateTime.Now.Date) < 0)
                 throw new AppointmentDatetimeException();
-            if (appointmentDTO.AppointmentTime == null || appointmentDTO.AppointmentDate == null)
-                throw new Exception("Provide appointment Date and Time");
-            if (appointmentDTO.PatientName == "" || appointmentDTO.DoctorName == "" || appointmentDTO.Issue == " " || appointmentDTO.DoctorId == 0 || appointmentDTO.PatientId == 0)
-                throw new NullReferenceException();
+            if(DateTime.Compare(DateTime.Now.Date, appointmentDTO.AppointmentDate) == 0 && TimeSpan.Compare(appointmentDTO.AppointmentTime, DateTime.Now.TimeOfDay) < 0)
+            {
+                throw new AppointmentDatetimeException();
+            }
+            if (appointmentDTO.PatientName == "" || appointmentDTO.DoctorName == "" || appointmentDTO.Issue == "" || appointmentDTO.DoctorId == 0 || appointmentDTO.PatientId == 0)
+            {
+                throw new MissingDetailException();
+            }
 
             var appointment = Converter.ConvertToAppointment(appointmentDTO);
 

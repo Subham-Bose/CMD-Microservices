@@ -52,6 +52,7 @@ namespace CMD.API.Appointments
             container.RegisterType<ITestService, TestService>();
             container.RegisterType<IVitalService, VitalService>();
             container.RegisterType<IFeedbackService, FeedbackService>();
+            container.RegisterType<IAppointmentRepository, AppointmentRepository>();
 
         }
     }

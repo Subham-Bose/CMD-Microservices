@@ -71,10 +71,9 @@
     <Reference Include="System.Web.Http, Version=5.2.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppointmentServiceUnitTests.cs" />
     <Compile Include="CMDFeedback.UnitTest.cs" />
-    <Compile Include="AppointmentServiceUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest2.cs" />
     <Compile Include="PrescriptionServiceUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
